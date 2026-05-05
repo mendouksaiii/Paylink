@@ -4,7 +4,7 @@
 
 // Program ID — replace with actual deployed program ID after `anchor deploy`
 // Using System Program as valid placeholder until deployment
-export const PROGRAM_ID = '11111111111111111111111111111111';
+export const PROGRAM_ID = '3aNvxijKXfz2VBDEH5iKXnvebjUretGgtgFwzqFjP5EV';
 
 // RPC endpoints
 export const RPC_ENDPOINTS = {

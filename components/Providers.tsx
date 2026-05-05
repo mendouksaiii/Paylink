@@ -1,7 +1,6 @@
 'use client';
 
 import { useMemo } from 'react';
-import { PrivyProvider } from '@privy-io/react-auth';
 import {
   ConnectionProvider,
   WalletProvider,
@@ -18,47 +17,24 @@ export function Providers({ children }: { children: React.ReactNode }) {
 
   const wallets = useMemo(() => [new PhantomWalletAdapter()], []);
 
-  const privyAppId = process.env.NEXT_PUBLIC_PRIVY_APP_ID;
-
-  const content = (
+  return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           {children}
           <Toaster
             position="top-right"
-            theme="dark"
+            theme="light"
             toastOptions={{
               style: {
-                background: 'rgba(15, 23, 42, 0.95)',
-                border: '1px solid rgba(148, 163, 184, 0.1)',
-                color: '#f1f5f9',
-                backdropFilter: 'blur(12px)',
+                background: '#ffffff',
+                border: '1px solid #e2e8f0',
+                color: '#0f172a',
               },
             }}
           />
         </WalletModalProvider>
       </WalletProvider>
     </ConnectionProvider>
-  );
-
-  if (!privyAppId) {
-    return <>{content}</>;
-  }
-
-  return (
-    <PrivyProvider
-      appId={privyAppId}
-      config={{
-        loginMethods: ['sms'],
-        appearance: { theme: 'light', accentColor: '#2563eb' },
-        embeddedWallets: {
-          createOnLogin: 'users-without-wallets',
-          requireUserPasswordOnCreate: false,
-        },
-      }}
-    >
-      {content}
-    </PrivyProvider>
   );
 }
