@@ -138,5 +138,9 @@ export function getErrorMessage(error) {
   if (errorStr.includes('User rejected')) return 'Transaction was rejected.';
   if (errorStr.includes('Blockhash not found')) return 'Network congestion. Please try again.';
 
-  return 'Transaction failed. Please try again.';
+  if (error instanceof Error) {
+    return `Debug Error: ${error.message}`;
+  }
+
+  return `Raw Error: ${errorStr}`;
 }

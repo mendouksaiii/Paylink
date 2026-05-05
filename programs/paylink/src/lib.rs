@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, CloseAccount, Mint, Token, TokenAccount, Transfer};
 
-declare_id!("YOUR_PROGRAM_ID_HERE");
+declare_id!("3aNvxijKXfz2VBDEH5iKXnvebjUretGgtgFwzqFjP5EV");
 
 #[program]
 pub mod paylink {
@@ -229,7 +229,7 @@ pub struct CreateLink<'info> {
         seeds = [b"escrow", claim_seed.as_ref()],
         bump
     )]
-    pub escrow_account: Account<'info, EscrowAccount>,
+    pub escrow_account: Box<Account<'info, EscrowAccount>>,
 
     #[account(
         init,
@@ -239,7 +239,7 @@ pub struct CreateLink<'info> {
         seeds = [b"escrow-token", claim_seed.as_ref()],
         bump
     )]
-    pub escrow_token_account: Account<'info, TokenAccount>,
+    pub escrow_token_account: Box<Account<'info, TokenAccount>>,
 
     /// Sender's token account. Must match the sender's wallet and the target mint.
     #[account(
@@ -249,10 +249,10 @@ pub struct CreateLink<'info> {
         constraint = sender_token_account.mint == token_mint.key()
             @ PaylinkError::MintMismatch,
     )]
-    pub sender_token_account: Account<'info, TokenAccount>,
+    pub sender_token_account: Box<Account<'info, TokenAccount>>,
 
     /// The SPL token mint (USDC or USDT).
-    pub token_mint: Account<'info, Mint>,
+    pub token_mint: Box<Account<'info, Mint>>,
 
     pub token_program: Program<'info, Token>,
     pub system_program: Program<'info, System>,
@@ -276,14 +276,14 @@ pub struct Claim<'info> {
         has_one = sender,
         close = sender,
     )]
-    pub escrow_account: Account<'info, EscrowAccount>,
+    pub escrow_account: Box<Account<'info, EscrowAccount>>,
 
     #[account(
         mut,
         seeds = [b"escrow-token", claim_seed.as_ref()],
         bump,
     )]
-    pub escrow_token_account: Account<'info, TokenAccount>,
+    pub escrow_token_account: Box<Account<'info, TokenAccount>>,
 
     /// Recipient's token account. Must match recipient wallet and escrow mint.
     #[account(
@@ -293,7 +293,7 @@ pub struct Claim<'info> {
         constraint = recipient_token_account.mint == escrow_token_account.mint
             @ PaylinkError::MintMismatch,
     )]
-    pub recipient_token_account: Account<'info, TokenAccount>,
+    pub recipient_token_account: Box<Account<'info, TokenAccount>>,
 
     pub token_program: Program<'info, Token>,
 }
@@ -312,14 +312,14 @@ pub struct Reclaim<'info> {
         has_one = sender,
         close = sender,
     )]
-    pub escrow_account: Account<'info, EscrowAccount>,
+    pub escrow_account: Box<Account<'info, EscrowAccount>>,
 
     #[account(
         mut,
         seeds = [b"escrow-token", claim_seed.as_ref()],
         bump,
     )]
-    pub escrow_token_account: Account<'info, TokenAccount>,
+    pub escrow_token_account: Box<Account<'info, TokenAccount>>,
 
     /// Sender's token account. Must match sender wallet and escrow mint.
     #[account(
@@ -329,7 +329,7 @@ pub struct Reclaim<'info> {
         constraint = sender_token_account.mint == escrow_token_account.mint
             @ PaylinkError::MintMismatch,
     )]
-    pub sender_token_account: Account<'info, TokenAccount>,
+    pub sender_token_account: Box<Account<'info, TokenAccount>>,
 
     pub token_program: Program<'info, Token>,
 }

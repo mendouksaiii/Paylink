@@ -1,12 +1,14 @@
+[toolchain]
+
 [features]
-seeds = false
+resolution = true
 skip-lint = false
 
-[programs.localnet]
-paylink = "YOUR_PROGRAM_ID_HERE"
-
 [programs.devnet]
-paylink = "YOUR_PROGRAM_ID_HERE"
+paylink = "3aNvxijKXfz2VBDEH5iKXnvebjUretGgtgFwzqFjP5EV"
+
+[programs.localnet]
+paylink = "11111111111111111111111111111111"
 
 [registry]
 url = "https://api.apr.dev"

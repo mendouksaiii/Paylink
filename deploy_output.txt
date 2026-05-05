@@ -1,0 +1,9 @@
+Deploying cluster: https://api.devnet.solana.com
+Upgrade authority: /root/.config/solana/id.json
+Deploying program "paylink"...
+Program path: /mnt/c/Users/HP/Documents/CSS/paylink/target/deploy/paylink.so...
+Program Id: 3aNvxijKXfz2VBDEH5iKXnvebjUretGgtgFwzqFjP5EV
+
+Signature: 3uMD7ZuGtQFKQoFc8Mie2D68pfYHmavkJE2rYYDgiDCCotsZ9B8VGqysk9ojy4aWaypyF2TFp28K5PLyqj4B6jUs
+
+Deploy success
