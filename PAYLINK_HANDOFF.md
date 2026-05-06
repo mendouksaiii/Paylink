@@ -1,46 +1,35 @@
 # PayLink — Developer Handoff & Build Status
 
 ## Project Overview
-PayLink is a Venmo-style payment link protocol built on Solana. It enables users to escrow stablecoins (USDC/USDT) on-chain and generate a shareable URL (e.g., `paylink.app/c?id=<uuid>`). A recipient can open the link, connect a wallet (or authenticate via other means), and claim the funds. Unclaimed funds can be automatically recovered by the sender after a preset expiration period.
+PayLink is a Venmo-style payment link protocol built on Solana. It enables users to escrow stablecoins (USDC/USDT) on-chain and generate a shareable URL (e.g., `paylink.app/c?id=<uuid>`). Recipients without crypto wallets can authenticate via Twilio OTP and use Moonpay for off-ramping, abstracting away the complexities of Web3.
 
-## Current Build Status: Next.js Migration Complete & Landing Page Finalized
+## Current Build Status: Core Protocol & Infrastructure Complete
 
-### 1. Smart Contract (Anchor) — `programs/paylink/src/lib.rs`
-- **Status:** Code complete, hardened, but **NOT deployed locally**.
-- **Features implemented:**
-  - Multi-token support via `mint` pubkey validation.
-  - Ownership constraints on all token accounts.
-  - Rent reclamation mechanisms (`close = sender`).
-  - Strict security constraints (no zero amounts, future-dated expiries).
-  - Event emission (`LinkCreated`, `LinkClaimed`, `LinkReclaimed`).
-- **Note:** The user's Windows environment lacks `cargo build-sbf`, so `anchor build` was skipped. The IDL interface was manually written into the frontend instead.
+### 1. Smart Contract (Anchor)
+- **Status:** Deployed to Devnet.
+- **Program ID:** `3aNvxijKXfz2VBDEH5iKXnvebjUretGgtgFwzqFjP5EV`
+- **Features:** Multi-token support (USDC/USDT), strict security constraints, time-locked expiries, and Anchor event emissions.
 
-### 2. Frontend Infrastructure (Next.js 16 App Router) — `paylink-next/`
-- **Status:** Successfully migrated from Vite SPA to Next.js App Router for better SEO, performance, and future secure backend API integrations.
-- **Dependencies:** `@solana/web3.js`, `@coral-xyz/anchor`, `@solana/wallet-adapter-react`, `framer-motion`, `lucide-react`.
-- **Wallet Setup:** Configured correctly via standard Solana Wallet Adapter context.
+### 2. Frontend Infrastructure (Next.js 16 App Router)
+- **Status:** Complete. Fully migrated from Vite SPA to Next.js App Router.
+- **Design System:** Upgraded to a premium dark-themed, glassmorphic UI using `framer-motion` and a full-bleed parallax hero section.
+- **Dependencies:** `@solana/web3.js`, `@coral-xyz/anchor`, `@solana/wallet-adapter-react`, `framer-motion`, `lucide-react`, `twilio`, `@supabase/supabase-js`, `@privy-io/react-auth`.
 
-### 3. Frontend UI & Pages
-- **Design System:** Deep navy/dark theme established, utilizing glassmorphism, responsive grid layouts, and smooth `framer-motion` animations.
-- **Home (`app/page.tsx`):** Completely revamped. Features a full-bleed photo background (`landing-bg.jpg`) with a dark cinematic gradient overlay. Includes new compelling, non-technical copywriting ("Your grandma doesn't need a wallet. She just needs a link."), custom SVG logo, and detailed security/use-case sections.
-- **Create (`app/create/page.tsx`):** The interface for selecting a stablecoin, entering the amount, setting expiry, and generating the claim link.
-- **Dashboard (`app/dashboard/page.tsx`):** Fetches and displays active, claimed, and expired links.
-- **Claim (`app/c/page.tsx`):** The recipient view. Extracts the UUID from the URL, handles the claim flow, and abstracts away technical complexities.
+### 3. Backend APIs & Integrations (Complete)
+- **Twilio OTP:** Fully integrated. API routes exist at `app/api/send-otp` and `app/api/verify-otp` to handle SMS authentication for recipients without wallets.
+- **Supabase:** Integrated via `lib/supabase.ts` to map UUIDs to their on-chain PDAs and securely handle recipient data.
+- **Moonpay / Privy:** Integrated to provide seamless off-ramping and frictionless Web2 authentication flows.
 
 ### 4. Codebase & Version Control
-- **Git:** All work (including the Next.js migration and visual overhaul) has been committed and pushed to GitHub.
+- **Git:** All work (including the visual overhaul) has been committed and pushed.
 - **Remote URL:** `https://github.com/mendouksaiii/Paylink.git`
 - **Branch:** `main`
 
 ---
 
-## Technical Blockers & Hacks to be aware of
-1. **Placeholder Program ID:** Because the Anchor contract is not yet deployed, the project currently uses the Solana System Program ID (`11111111111111111111111111111111`) as a base58 placeholder in the frontend. *Any attempt to execute a transaction will fail on-chain until the real program is deployed and this ID is updated.*
-2. **Local Storage Fallback:** To allow frontend development without a live contract, `localStorage` fallbacks are heavily utilized to store created links so the dashboard can render mock data.
+## Next Steps for Claude
+Since the core infrastructure (Smart Contract, Next.js UI, Twilio, Supabase, Moonpay) is fully wired and deployed to Devnet, the immediate next steps are focused on QA, polish, and production readiness:
 
-## Next Steps for the Next AI/Developer
-If taking over this project, the immediate next steps are:
-1. **Deploy Contract:** Deploy the `paylink` program to Solana Devnet via a machine with the complete Solana CLI/Cargo build suite installed.
-2. **Update Program ID:** Update `PROGRAM_ID` across the frontend constants with the newly deployed address.
-3. **Verify Contract Integration:** Test the end-to-end `createLink`, `claimLink`, and `reclaimLink` flows against the deployed Devnet contract using Phantom wallet and Devnet SPL tokens.
-4. **Backend Implementation:** Now that Next.js App Router is active, set up the secure API routes required for the Web2 Auth flow (e.g., Twilio OTP verification for recipients without wallets) and Moonpay off-ramping.
+1. **End-to-End Flow Verification:** Conduct a final rigorous end-to-end test of the payment flow using Devnet funds. Create a link -> Send via SMS -> Authenticate via Twilio OTP -> Claim funds.
+2. **Mainnet Preparation:** Prepare the deployment scripts and environment variables necessary to push the Anchor contract to Mainnet Beta.
+3. **Analytics & Monitoring:** Set up necessary observability (Sentry, PostHog) to track dropped claim flows or API failures in production.
