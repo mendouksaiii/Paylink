@@ -1,9 +1,9 @@
-# Paylink — Developer Handoff & Build Status
+# PayLink — Developer Handoff & Build Status
 
 ## Project Overview
-Paylink is a Venmo-style payment link protocol on Solana. It allows users to escrow USDC or USDT on-chain and generate a shareable URL (e.g., `paylink.app/c?id=<uuid>`). A recipient can open the link, connect their wallet, and claim the funds without needing to provide their wallet address beforehand. Unclaimed funds can be recovered by the sender after an expiration period.
+PayLink is a Venmo-style payment link protocol built on Solana. It enables users to escrow stablecoins (USDC/USDT) on-chain and generate a shareable URL (e.g., `paylink.app/c?id=<uuid>`). A recipient can open the link, connect a wallet (or authenticate via other means), and claim the funds. Unclaimed funds can be automatically recovered by the sender after a preset expiration period.
 
-## Current Build Status: Phase 4 (On-Chain Wiring Complete)
+## Current Build Status: Next.js Migration Complete & Landing Page Finalized
 
 ### 1. Smart Contract (Anchor) — `programs/paylink/src/lib.rs`
 - **Status:** Code complete, hardened, but **NOT deployed locally**.
@@ -15,36 +15,32 @@ Paylink is a Venmo-style payment link protocol on Solana. It allows users to esc
   - Event emission (`LinkCreated`, `LinkClaimed`, `LinkReclaimed`).
 - **Note:** The user's Windows environment lacks `cargo build-sbf`, so `anchor build` was skipped. The IDL interface was manually written into the frontend instead.
 
-### 2. Frontend Infrastructure (Vite + React) — `app/`
-- **Status:** Scaffolding and build pipeline complete.
-- **Dependencies:** `@solana/web3.js`, `@coral-xyz/anchor`, `@solana/wallet-adapter-react`, `react-router-dom`.
-- **Polyfills:** `vite-plugin-node-polyfills` is installed and active in `vite.config.js` to handle Solana's `Buffer` dependencies in the browser.
-- **Wallet:** `PhantomWalletAdapter` is configured via `WalletProvider`.
+### 2. Frontend Infrastructure (Next.js 16 App Router) — `paylink-next/`
+- **Status:** Successfully migrated from Vite SPA to Next.js App Router for better SEO, performance, and future secure backend API integrations.
+- **Dependencies:** `@solana/web3.js`, `@coral-xyz/anchor`, `@solana/wallet-adapter-react`, `framer-motion`, `lucide-react`.
+- **Wallet Setup:** Configured correctly via standard Solana Wallet Adapter context.
 
 ### 3. Frontend UI & Pages
-- **Design System (`src/index.css`):** Fully implemented with a premium "Cyber-Luxury" aesthetic (glassmorphism, dark theme, gradient meshes).
-- **Home (`src/pages/Home.jsx`):** Landing page with 3-step feature breakdown.
-- **Create (`src/pages/Create.jsx`):** Selects USDC/USDT, inputs amount, selects expiry, generates secure claim seed, and provides copy/share URL.
-- **Claim (`src/pages/Claim.jsx`):** Extracts hex seed from URL query, parses into UUID, displays countdown timer, handles claim flow.
-- **Dashboard (`src/pages/Dashboard.jsx`):** Fetches active/claimed/expired links from on-chain data (with `localStorage` fallback).
+- **Design System:** Deep navy/dark theme established, utilizing glassmorphism, responsive grid layouts, and smooth `framer-motion` animations.
+- **Home (`app/page.tsx`):** Completely revamped. Features a full-bleed photo background (`landing-bg.jpg`) with a dark cinematic gradient overlay. Includes new compelling, non-technical copywriting ("Your grandma doesn't need a wallet. She just needs a link."), custom SVG logo, and detailed security/use-case sections.
+- **Create (`app/create/page.tsx`):** The interface for selecting a stablecoin, entering the amount, setting expiry, and generating the claim link.
+- **Dashboard (`app/dashboard/page.tsx`):** Fetches and displays active, claimed, and expired links.
+- **Claim (`app/c/page.tsx`):** The recipient view. Extracts the UUID from the URL, handles the claim flow, and abstracts away technical complexities.
 
-### 4. On-Chain Integration (`src/hooks/usePaylink.js`)
-- **Status:** Fully wired using Anchor's JS SDK.
-- **`createLink`:** Derives PDAs, validates sender ATA, and issues the `createLink` Anchor RPC.
-- **`claimLink`:** Reconstructs the seed, checks for the recipient's ATA, auto-creates the recipient ATA via `createAssociatedTokenAccountInstruction` if missing, and executes the claim.
-- **`reclaimLink`:** Derives PDAs and issues reclaim transaction for expired links.
-- **`fetchSenderLinks`:** Uses `connection.getProgramAccounts` with a `memcmp` filter (offset 8) to fetch the connected wallet's active escrows.
+### 4. Codebase & Version Control
+- **Git:** All work (including the Next.js migration and visual overhaul) has been committed and pushed to GitHub.
+- **Remote URL:** `https://github.com/mendouksaiii/Paylink.git`
+- **Branch:** `main`
 
 ---
 
 ## Technical Blockers & Hacks to be aware of
-1. **Placeholder Program ID:** Because the Anchor contract is not yet deployed, `src/utils/constants.js` currently uses the Solana System Program ID (`11111111111111111111111111111111`) as a base58 placeholder. *Any attempt to execute a transaction will fail on-chain until the real program is deployed and this ID is updated.*
-2. **Local Storage Fallback:** `src/utils/crypto.js` includes a `localStorage` wrapper to store created links locally so the dashboard can render mock data while the on-chain fetch fails (due to the placeholder ID).
+1. **Placeholder Program ID:** Because the Anchor contract is not yet deployed, the project currently uses the Solana System Program ID (`11111111111111111111111111111111`) as a base58 placeholder in the frontend. *Any attempt to execute a transaction will fail on-chain until the real program is deployed and this ID is updated.*
+2. **Local Storage Fallback:** To allow frontend development without a live contract, `localStorage` fallbacks are heavily utilized to store created links so the dashboard can render mock data.
 
-## Next Steps (Phase 5: Polish & Deployment)
+## Next Steps for the Next AI/Developer
 If taking over this project, the immediate next steps are:
-1. **Deploy Contract:** Deploy the `paylink` program to Solana Devnet via a machine with the Solana CLI/Cargo installed.
-2. **Update Program ID:** Update `PROGRAM_ID` in `app/src/utils/constants.js` with the newly deployed address.
-3. **UI Polish:** Add confetti micro-animations on successful link creation/claiming.
-4. **Toast Notifications:** Add UI toasts for clipboard copy actions and RPC transaction errors.
-5. **Testing:** Run end-to-end testing against Devnet with actual Phantom wallet signers and devnet USDC/USDT tokens.
+1. **Deploy Contract:** Deploy the `paylink` program to Solana Devnet via a machine with the complete Solana CLI/Cargo build suite installed.
+2. **Update Program ID:** Update `PROGRAM_ID` across the frontend constants with the newly deployed address.
+3. **Verify Contract Integration:** Test the end-to-end `createLink`, `claimLink`, and `reclaimLink` flows against the deployed Devnet contract using Phantom wallet and Devnet SPL tokens.
+4. **Backend Implementation:** Now that Next.js App Router is active, set up the secure API routes required for the Web2 Auth flow (e.g., Twilio OTP verification for recipients without wallets) and Moonpay off-ramping.
