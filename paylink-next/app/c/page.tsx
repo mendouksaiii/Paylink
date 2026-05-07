@@ -253,9 +253,9 @@ export default function ClaimPage() {
                 </div>
 
                 <PhoneInput
-                  phone={phone}
+                  value={phone}
                   countryCode={countryCode}
-                  onChange={setPhone}
+                  onValueChange={setPhone}
                   onCountryChange={setCountryCode}
                 />
 
@@ -287,7 +287,7 @@ export default function ClaimPage() {
                   </div>
                 </div>
 
-                <OtpInput value={otp} onChange={setOtp} onComplete={handleVerifyOtp} />
+                <OtpInput value={otp} onChange={setOtp} />
 
                 {error && <ErrorBanner message={error} />}
 
@@ -347,7 +347,7 @@ export default function ClaimPage() {
                   </motion.div>
                 </div>
                 <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}>
-                  <MoonpayWidget amount={amount} token={token} sessionToken={sessionToken} />
+                  <MoonpayWidget amount={amount} sessionToken={sessionToken} />
                 </motion.div>
               </motion.div>
             )}

@@ -3,7 +3,7 @@
  *
  * Provides the Anchor program instance and PDA derivation helpers.
  */
-import { PublicKey } from '@solana/web3.js';
+import { PublicKey, Connection } from '@solana/web3.js';
 import { Program, AnchorProvider } from '@coral-xyz/anchor';
 import { PROGRAM_ID } from './constants';
 
@@ -92,17 +92,17 @@ const programId = new PublicKey(PROGRAM_ID);
 /**
  * Get the Anchor program instance from a wallet + connection.
  */
-export function getProgram(connection, wallet) {
+export function getProgram(connection: Connection, wallet: any) {
   const provider = new AnchorProvider(connection, wallet, {
     commitment: 'confirmed',
   });
-  return new Program(IDL, programId, provider);
+  return new Program(IDL as any, provider);
 }
 
 /**
  * Derive the escrow account PDA.
  */
-export function getEscrowPDA(claimSeed) {
+export function getEscrowPDA(claimSeed: Uint8Array) {
   return PublicKey.findProgramAddressSync(
     [Buffer.from('escrow'), Buffer.from(claimSeed)],
     programId
@@ -112,7 +112,7 @@ export function getEscrowPDA(claimSeed) {
 /**
  * Derive the escrow token account PDA.
  */
-export function getEscrowTokenPDA(claimSeed) {
+export function getEscrowTokenPDA(claimSeed: Uint8Array) {
   return PublicKey.findProgramAddressSync(
     [Buffer.from('escrow-token'), Buffer.from(claimSeed)],
     programId
@@ -122,7 +122,7 @@ export function getEscrowTokenPDA(claimSeed) {
 /**
  * Map Anchor error codes to user-friendly messages.
  */
-export function getErrorMessage(error) {
+export function getErrorMessage(error: unknown): string {
   if (!error) return 'An unknown error occurred.';
 
   const errorStr = error.toString();

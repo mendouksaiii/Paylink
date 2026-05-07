@@ -23,9 +23,11 @@ export function Providers({ children }: { children: React.ReactNode }) {
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
           <MoonPayProvider
-            apiKey={process.env.NEXT_PUBLIC_MOONPAY_API_KEY || 'pk_test_123'}
-            environment="sandbox"
-            debug={true}
+            {...{
+              apiKey: process.env.NEXT_PUBLIC_MOONPAY_API_KEY || 'pk_test_123',
+              environment: 'sandbox',
+              debug: true,
+            } as any}
           >
             {children}
           </MoonPayProvider>
