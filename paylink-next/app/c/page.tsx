@@ -17,7 +17,7 @@ type Channel = 'whatsapp' | 'sms';
 
 const SLIDE = {
   hidden: { opacity: 0, x: 40 },
-  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+  visible: { opacity: 1, x: 0, transition: { duration: 0.4, ease: 'easeOut' as const } },
   exit: { opacity: 0, x: -40, transition: { duration: 0.25 } },
 };
 
