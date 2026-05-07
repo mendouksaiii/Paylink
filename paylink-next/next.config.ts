@@ -1,9 +1,7 @@
 import type { NextConfig } from 'next';
 
 const nextConfig: NextConfig = {
-  experimental: {
-    optimizePackageImports: ['!lucide-react'],
-  },
+  turbopack: {},           // empty config silences the error
   webpack: (config) => {
     config.resolve.fallback = {
       ...config.resolve.fallback,
