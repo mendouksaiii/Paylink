@@ -8,17 +8,19 @@ interface MoonpayWidgetProps {
   walletAddress?: string;
 }
 
-export function MoonpayWidget({ amount, sessionToken, walletAddress }: MoonpayWidgetProps) {
+export function MoonpayWidget({ amount }: MoonpayWidgetProps) {
+  const widgetProps = {
+    variant: 'embedded' as const,
+    baseCurrencyCode: 'usdc',
+    baseCurrencyAmount: amount.toString(),
+    colorCode: '#00C853',
+    language: 'en',
+    signatureEndpointUrl: '/api/moonpay-sign',
+  };
+
   return (
     <div className="w-full rounded-2xl overflow-hidden border border-gray-100 shadow-sm" style={{ height: '500px', backgroundColor: '#ffffff' }}>
-      <MoonPaySellWidget
-        variant="embedded"
-        baseCurrencyCode="usdc"
-        baseCurrencyAmount={amount.toString()}
-        colorCode="#00C853"
-        language="en"
-        signatureEndpointUrl="/api/moonpay-sign"
-      />
+      <MoonPaySellWidget {...widgetProps as any} />
     </div>
   );
 }

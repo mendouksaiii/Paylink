@@ -33,7 +33,7 @@ export const TOKENS = {
 /**
  * Get the mint PublicKey for a token on the current network.
  */
-export function getTokenMint(symbol) {
+export function getTokenMint(symbol: keyof typeof TOKENS) {
   const token = TOKENS[symbol];
   if (!token) throw new Error(`Unknown token: ${symbol}`);
   return token.mint[NETWORK];
@@ -42,7 +42,7 @@ export function getTokenMint(symbol) {
 /**
  * Find token info by mint address.
  */
-export function getTokenByMint(mintAddress) {
+export function getTokenByMint(mintAddress: string | { toString(): string }) {
   const mintStr = mintAddress.toString();
   for (const token of Object.values(TOKENS)) {
     if (token.mint.devnet.toString() === mintStr ||
@@ -56,7 +56,7 @@ export function getTokenByMint(mintAddress) {
 /**
  * Format a raw token amount to human-readable string.
  */
-export function formatTokenAmount(rawAmount, decimals = 6) {
+export function formatTokenAmount(rawAmount: string | number, decimals = 6): string {
   const num = Number(rawAmount) / Math.pow(10, decimals);
   return num.toLocaleString('en-US', {
     minimumFractionDigits: 2,
@@ -67,6 +67,6 @@ export function formatTokenAmount(rawAmount, decimals = 6) {
 /**
  * Parse a human-readable amount to raw token units.
  */
-export function parseTokenAmount(humanAmount, decimals = 6) {
+export function parseTokenAmount(humanAmount: string | number, decimals = 6): number {
   return Math.floor(Number(humanAmount) * Math.pow(10, decimals));
 }

@@ -22,7 +22,7 @@ export function usePaylink() {
    * Create a new payment link.
    * Deposits tokens into an escrow PDA.
    */
-  const createLink = useCallback(async ({ claimSeed, amount, expiryTs, mintAddress }) => {
+  const createLink = useCallback(async ({ claimSeed, amount, expiryTs, mintAddress }: { claimSeed: Uint8Array; amount: number; expiryTs: number; mintAddress: string }) => {
     if (!wallet.publicKey || !wallet.signTransaction) {
       throw new Error('Wallet not connected');
     }
@@ -68,7 +68,7 @@ export function usePaylink() {
    * Claim escrowed tokens using the claim seed from the URL.
    * Auto-creates recipient's ATA if needed.
    */
-  const claimLink = useCallback(async ({ claimSeed }) => {
+  const claimLink = useCallback(async ({ claimSeed }: { claimSeed: Uint8Array }) => {
     if (!wallet.publicKey || !wallet.signTransaction) {
       throw new Error('Wallet not connected');
     }
@@ -81,7 +81,7 @@ export function usePaylink() {
     const [escrowTokenPDA] = getEscrowTokenPDA(claimSeed);
 
     // Fetch escrow to get mint and sender
-    const escrow = await program.account.escrowAccount.fetch(escrowPDA);
+    const escrow = await (program.account as any).escrowAccount.fetch(escrowPDA);
     const mint = escrow.mint;
     const sender = escrow.sender;
 
@@ -125,7 +125,7 @@ export function usePaylink() {
   /**
    * Reclaim expired escrow tokens back to the sender.
    */
-  const reclaimLink = useCallback(async ({ claimSeed }) => {
+  const reclaimLink = useCallback(async ({ claimSeed }: { claimSeed: Uint8Array }) => {
     if (!wallet.publicKey || !wallet.signTransaction) {
       throw new Error('Wallet not connected');
     }
@@ -138,7 +138,7 @@ export function usePaylink() {
     const [escrowTokenPDA] = getEscrowTokenPDA(claimSeed);
 
     // Fetch escrow to get mint
-    const escrow = await program.account.escrowAccount.fetch(escrowPDA);
+    const escrow = await (program.account as any).escrowAccount.fetch(escrowPDA);
     const mint = escrow.mint;
 
     // Get sender's ATA
@@ -162,12 +162,12 @@ export function usePaylink() {
    * Fetch a single escrow account by claim seed.
    * Returns null if the account doesn't exist (claimed/closed or never created).
    */
-  const fetchEscrow = useCallback(async (claimSeed) => {
+  const fetchEscrow = useCallback(async (claimSeed: Uint8Array) => {
     const program = getProgram(connection, wallet);
     const [escrowPDA] = getEscrowPDA(claimSeed);
 
     try {
-      const escrow = await program.account.escrowAccount.fetch(escrowPDA);
+      const escrow = await (program.account as any).escrowAccount.fetch(escrowPDA);
       return {
         sender: escrow.sender.toString(),
         mint: escrow.mint.toString(),

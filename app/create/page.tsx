@@ -20,7 +20,7 @@ const FADE_UP = {
   hidden: { opacity: 0, y: 24 },
   visible: (i = 0) => ({
     opacity: 1, y: 0,
-    transition: { duration: 0.5, delay: i * 0.08, ease: 'easeOut' }
+    transition: { duration: 0.5, delay: i * 0.08, ease: 'easeOut' as const }
   }),
 };
 
@@ -37,7 +37,7 @@ export default function Create() {
   const [errorMsg, setErrorMsg] = useState('');
   const [copied, setCopied] = useState(false);
 
-  const token = TOKENS[selectedToken];
+  const token = TOKENS[selectedToken as keyof typeof TOKENS];
 
   async function handleCreate() {
     if (!connected || !amount || Number(amount) <= 0) return;
@@ -48,7 +48,7 @@ export default function Create() {
       const url = generateClaimUrl(seed);
       const rawAmount = parseTokenAmount(amount, token.decimals);
       const expiryTs = Math.floor(Date.now() / 1000) + expirySeconds;
-      const mintAddress = getTokenMint(selectedToken).toString();
+      const mintAddress = getTokenMint(selectedToken as 'USDC' | 'USDT').toString();
 
       const result = await createLink({ claimSeed: seed, amount: rawAmount, expiryTs, mintAddress });
 

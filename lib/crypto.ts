@@ -27,16 +27,16 @@ export function generateClaimSeed() {
 /**
  * Convert a Uint8Array to a hex string.
  */
-export function seedToHex(seed) {
+export function seedToHex(seed: Uint8Array): string {
   return Array.from(seed)
-    .map(b => b.toString(16).padStart(2, '0'))
+    .map((b: number) => b.toString(16).padStart(2, '0'))
     .join('');
 }
 
 /**
  * Convert a hex string back to a Uint8Array.
  */
-export function hexToSeed(hex) {
+export function hexToSeed(hex: string): Uint8Array {
   const bytes = new Uint8Array(hex.length / 2);
   for (let i = 0; i < hex.length; i += 2) {
     bytes[i / 2] = parseInt(hex.substr(i, 2), 16);
@@ -48,7 +48,7 @@ export function hexToSeed(hex) {
  * Create a UUID v4-style string from the first 16 bytes of the seed.
  * Used as the display ID in the URL.
  */
-export function seedToDisplayId(seed) {
+export function seedToDisplayId(seed: Uint8Array): string {
   const hex = seedToHex(seed.slice(0, 16));
   return [
     hex.slice(0, 8),
@@ -63,7 +63,7 @@ export function seedToDisplayId(seed) {
  * Generate the claim URL for a given seed.
  * Format: /c?id=<full 64-char hex>
  */
-export function generateClaimUrl(seed) {
+export function generateClaimUrl(seed: Uint8Array): string {
   const hex = seedToHex(seed);
   const base = typeof window !== 'undefined' ? window.location.origin : 'https://paylink.app';
   return `${base}/c?id=${hex}`;
@@ -72,7 +72,7 @@ export function generateClaimUrl(seed) {
 /**
  * Extract the seed from a claim URL's query parameter.
  */
-export function extractSeedFromUrl(searchParams) {
+export function extractSeedFromUrl(searchParams: URLSearchParams): Uint8Array | null {
   const id = searchParams.get('id');
   if (!id) return null;
   try {
@@ -85,7 +85,7 @@ export function extractSeedFromUrl(searchParams) {
 /**
  * Store a created link in localStorage for dashboard recovery.
  */
-export function storeCreatedLink(seed, data) {
+export function storeCreatedLink(seed: Uint8Array, data: Record<string, unknown>) {
   const key = 'paylink_links';
   const existing = JSON.parse(localStorage.getItem(key) || '[]');
   existing.push({
