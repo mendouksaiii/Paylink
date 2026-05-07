@@ -86,7 +86,9 @@ export async function POST(req: NextRequest) {
     const provider = new AnchorProvider(connection, wallet, {
       commitment: 'confirmed',
     });
-    const program = new Program(IDL as any, new PublicKey(PROGRAM_ID), provider);
+    const program = new Program(IDL as any, provider) as any;
+    // Program ID is embedded in IDL; if not, override:
+    // program.programId = new PublicKey(PROGRAM_ID);
 
     // 4. Reconstruct seed and derive PDAs
     const seedBytes = new Uint8Array(
