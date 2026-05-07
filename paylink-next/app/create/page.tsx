@@ -50,6 +50,24 @@ export default function Create() {
         mintAddress,
       });
 
+      // Write to Supabase so the claim page can look it up
+      const { seedToHex, seedToDisplayId } = await import('@/lib/crypto');
+      const claimId = seedToHex(seed);
+      await fetch('/api/create-claim', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          claimId,
+          senderPubkey: publicKey.toString(),
+          claimSeed: seedToHex(seed),
+          amount: Number(amount),
+          token: selectedToken,
+          mintAddress,
+          expiryTs,
+          txSignature: result.txSignature,
+        }),
+      });
+
       // Store locally for dashboard
       storeCreatedLink(seed, {
         token: selectedToken,
