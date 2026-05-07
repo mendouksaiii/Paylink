@@ -8,6 +8,7 @@ import {
 import { PhantomWalletAdapter } from '@solana/wallet-adapter-wallets';
 import { WalletModalProvider } from '@solana/wallet-adapter-react-ui';
 import { Toaster } from 'sonner';
+import { MoonPayProvider } from '@moonpay/moonpay-react';
 
 import '@solana/wallet-adapter-react-ui/styles.css';
 
@@ -21,7 +22,13 @@ export function Providers({ children }: { children: React.ReactNode }) {
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>
         <WalletModalProvider>
-          {children}
+          <MoonPayProvider
+            apiKey={process.env.NEXT_PUBLIC_MOONPAY_API_KEY || 'pk_test_123'}
+            environment="sandbox"
+            debug={true}
+          >
+            {children}
+          </MoonPayProvider>
           <Toaster
             position="top-right"
             theme="light"
