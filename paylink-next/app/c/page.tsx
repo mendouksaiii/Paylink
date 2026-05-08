@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { PhoneInput } from '@/components/PhoneInput';
 import { OtpInput } from '@/components/OtpInput';
@@ -33,6 +33,14 @@ const STEPS_META = [
 ];
 
 export default function ClaimPage() {
+  return (
+    <Suspense fallback={<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '100vh' }}><Loader2 className="animate-spin" size={32} style={{ color: 'var(--accent)' }} /></div>}>
+      <ClaimPageInner />
+    </Suspense>
+  );
+}
+
+function ClaimPageInner() {
   const searchParams = useSearchParams();
   const claimId = searchParams.get('id') || '';
 
