@@ -62,6 +62,22 @@ export const IDL = {
   accounts: [
     {
       name: 'EscrowAccount',
+      discriminator: [36, 69, 48, 18, 128, 225, 125, 135],
+    },
+  ],
+  errors: [
+    { code: 6000, name: 'AlreadyClaimed', msg: 'This link has already been claimed.' },
+    { code: 6001, name: 'LinkExpired', msg: 'This link has expired.' },
+    { code: 6002, name: 'NotYetExpired', msg: 'Link has not yet expired.' },
+    { code: 6003, name: 'Unauthorized', msg: 'Only the original sender can reclaim.' },
+    { code: 6004, name: 'ZeroAmount', msg: 'Amount must be greater than zero.' },
+    { code: 6005, name: 'ExpiryInPast', msg: 'Expiry timestamp must be in the future.' },
+    { code: 6006, name: 'InvalidTokenAccountOwner', msg: 'Token account owner does not match expected wallet.' },
+    { code: 6007, name: 'MintMismatch', msg: 'Token mint does not match the escrow mint.' },
+  ],
+  types: [
+    {
+      name: 'EscrowAccount',
       type: {
         kind: 'struct',
         fields: [
@@ -76,17 +92,6 @@ export const IDL = {
       },
     },
   ],
-  errors: [
-    { code: 6000, name: 'AlreadyClaimed', msg: 'This link has already been claimed.' },
-    { code: 6001, name: 'LinkExpired', msg: 'This link has expired.' },
-    { code: 6002, name: 'NotYetExpired', msg: 'Link has not yet expired.' },
-    { code: 6003, name: 'Unauthorized', msg: 'Only the original sender can reclaim.' },
-    { code: 6004, name: 'ZeroAmount', msg: 'Amount must be greater than zero.' },
-    { code: 6005, name: 'ExpiryInPast', msg: 'Expiry timestamp must be in the future.' },
-    { code: 6006, name: 'InvalidTokenAccountOwner', msg: 'Token account owner does not match expected wallet.' },
-    { code: 6007, name: 'MintMismatch', msg: 'Token mint does not match the escrow mint.' },
-  ],
-  types: [],
 };
 
 const programId = new PublicKey(PROGRAM_ID);
