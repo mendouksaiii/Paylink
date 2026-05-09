@@ -1,51 +1,56 @@
 /* ================================================================
-   PAYLINK — Design System v2
-   Cyber-Luxury Dark Theme
+   PAYLINK — Design System v3 (UI/UX Pro Max)
+   OLED Dark Mode + Gold/Purple Accents
    ================================================================ */
 
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Exo+2:wght@300;400;500;600;700&family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 /* --- CSS Custom Properties (Design Tokens) --- */
 :root {
   /* Dark backgrounds */
-  --bg-primary: #080c18;
-  --bg-secondary: #0d1326;
-  --bg-card: rgba(255, 255, 255, 0.04);
-  --bg-card-hover: rgba(255, 255, 255, 0.07);
-  --bg-input: rgba(255, 255, 255, 0.06);
+  --bg-primary: #0F172A;
+  --bg-secondary: #1E293B;
+  --bg-card: rgba(255, 255, 255, 0.03);
+  --bg-card-hover: rgba(255, 255, 255, 0.06);
+  --bg-input: rgba(255, 255, 255, 0.05);
 
-  /* Brand green */
-  --accent: #00C853;
-  --accent-hover: #00e060;
-  --accent-glow: rgba(0, 200, 83, 0.2);
-  --accent-glow-strong: rgba(0, 200, 83, 0.35);
+  /* Brand Primary (Gold) */
+  --accent: #F59E0B;
+  --accent-hover: #FBBF24;
+  --accent-glow: rgba(245, 158, 11, 0.2);
+  --accent-glow-strong: rgba(245, 158, 11, 0.35);
+
+  /* CTA (Purple) */
+  --cta: #8B5CF6;
+  --cta-hover: #A78BFA;
+  --cta-glow: rgba(139, 92, 246, 0.3);
 
   /* Token brand colors */
   --usdc-color: #2775ca;
   --usdt-color: #26a17b;
 
   /* Status */
-  --success: #00C853;
-  --warning: #f59e0b;
-  --danger: #ef4444;
-  --info: #3b82f6;
+  --success: #10B981;
+  --warning: #F59E0B;
+  --danger: #EF4444;
+  --info: #3B82F6;
 
   /* Text */
-  --text-primary: #f1f5f9;
-  --text-secondary: rgba(241, 245, 249, 0.6);
-  --text-muted: rgba(241, 245, 249, 0.35);
-  --text-inverse: #080c18;
+  --text-primary: #F8FAFC;
+  --text-secondary: rgba(248, 250, 252, 0.7);
+  --text-muted: rgba(248, 250, 252, 0.4);
+  --text-inverse: #0F172A;
 
   /* Borders */
   --border: rgba(255, 255, 255, 0.08);
   --border-hover: rgba(255, 255, 255, 0.16);
-  --border-focus: rgba(0, 200, 83, 0.5);
+  --border-focus: rgba(245, 158, 11, 0.5);
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.4);
-  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.4);
-  --shadow-glow: 0 0 24px rgba(0, 200, 83, 0.3);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.4);
+  --shadow-lg: 0 8px 40px rgba(0, 0, 0, 0.5);
+  --shadow-glow: 0 0 24px rgba(245, 158, 11, 0.3);
 
   /* Radii */
   --radius-sm: 8px;
@@ -64,7 +69,8 @@
   --space-3xl: 64px;
 
   /* Typography */
-  --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --font-sans: 'Exo 2', sans-serif;
+  --font-heading: 'Orbitron', sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* Transitions */
