@@ -171,7 +171,7 @@ function CatchyAnimatedBackground() {
       <div style={{
         position: 'absolute',
         inset: 0,
-        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 0, 0, 0.05) 1px, transparent 1px)',
         backgroundSize: '50px 50px',
         maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%)',
         WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%)',
@@ -182,7 +182,7 @@ function CatchyAnimatedBackground() {
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'linear-gradient(to bottom, transparent 0%, rgba(15,23,42,0.8) 60%, rgba(15,23,42,1) 100%)',
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(250,250,250,0.8) 60%, rgba(250,250,250,1) 100%)',
         pointerEvents: 'none'
       }} />
     </div>
