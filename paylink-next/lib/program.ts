@@ -81,8 +81,8 @@ export const IDL = {
       type: {
         kind: 'struct',
         fields: [
-          { name: 'sender', type: 'publicKey' },
-          { name: 'mint', type: 'publicKey' },
+          { name: 'sender', type: 'pubkey' },
+          { name: 'mint', type: 'pubkey' },
           { name: 'amount', type: 'u64' },
           { name: 'claimSeed', type: { array: ['u8', 32] } },
           { name: 'expiryTs', type: 'i64' },
