@@ -152,7 +152,7 @@ export function getErrorMessage(error: unknown): string {
   if (errorStr.includes('Blockhash not found')) return 'Network congestion. Please try again.';
 
   if (error instanceof Error) {
-    return `Debug Error [v2-pubkey]: ${error.message}`;
+    return error.message;
   }
 
   return `Raw Error: ${errorStr}`;

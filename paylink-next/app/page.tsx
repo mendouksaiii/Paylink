@@ -308,10 +308,6 @@ export default function Home() {
                 </Link>
               </motion.div>
 
-              <motion.div variants={FADE_UP} style={{ marginTop: '1rem', fontSize: '11px', opacity: 0.4, letterSpacing: '2px' }}>
-                BUILD_MARKER: v2-pubkey-fix-{new Date().toISOString().slice(0, 10)}
-              </motion.div>
-
               {/* Trust bar */}
               <motion.div variants={FADE_UP} style={{ marginTop: '40px', display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                 {[
