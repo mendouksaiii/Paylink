@@ -1,12 +1,18 @@
 import type { Metadata } from 'next';
-import { Inter } from 'next/font/google';
+import { Exo_2, Orbitron } from 'next/font/google';
 import './globals.css';
 import { Providers } from '@/components/Providers';
 import { Navbar } from '@/components/Navbar';
 
-const inter = Inter({
+const exo2 = Exo_2({
   subsets: ['latin'],
-  variable: '--font-inter',
+  variable: '--font-exo2',
+  display: 'swap',
+});
+
+const orbitron = Orbitron({
+  subsets: ['latin'],
+  variable: '--font-orbitron',
   display: 'swap',
 });
 
@@ -28,7 +34,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" className={inter.variable}>
+    <html lang="en" className={`${exo2.variable} ${orbitron.variable}`}>
       <body>
         <Providers>
           <div id="root">
