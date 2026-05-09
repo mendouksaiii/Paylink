@@ -91,6 +91,69 @@ function TiltCard({ children, style, className }: { children: React.ReactNode, s
   );
 }
 
+function AnimatedBackground() {
+  return (
+    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--bg-primary)' }}>
+      {/* Animated glowing orbs */}
+      <motion.div
+        animate={{
+          x: [0, 100, 0, -100, 0],
+          y: [0, 50, 100, 50, 0],
+          scale: [1, 1.2, 1, 0.8, 1],
+        }}
+        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
+        style={{
+          position: 'absolute',
+          top: '20%',
+          left: '30%',
+          width: '40vw',
+          height: '40vw',
+          background: 'var(--cta)',
+          borderRadius: '50%',
+          filter: 'blur(100px)',
+          opacity: 0.15,
+        }}
+      />
+      <motion.div
+        animate={{
+          x: [0, -100, 0, 100, 0],
+          y: [0, -50, -100, -50, 0],
+          scale: [1, 0.8, 1, 1.2, 1],
+        }}
+        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
+        style={{
+          position: 'absolute',
+          bottom: '10%',
+          right: '20%',
+          width: '35vw',
+          height: '35vw',
+          background: 'var(--accent)',
+          borderRadius: '50%',
+          filter: 'blur(100px)',
+          opacity: 0.15,
+        }}
+      />
+      
+      {/* Animated Grid overlay */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
+        backgroundSize: '40px 40px',
+        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
+      }} />
+
+      {/* Dark fade at bottom to blend into content */}
+      <div style={{
+        position: 'absolute',
+        inset: 0,
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(15,23,42,0.8) 50%, rgba(15,23,42,1) 100%)',
+      }} />
+    </div>
+  );
+}
+
 export default function Home() {
   const { connected } = useWallet();
   const { scrollY } = useScroll();
@@ -113,22 +176,7 @@ export default function Home() {
             y: heroBgY,
           }}
         >
-          <img 
-            src="/landing-bg.jpg" 
-            alt="" 
-            style={{
-              width: '100%',
-              height: '120%',
-              objectFit: 'cover',
-              objectPosition: 'center 20%',
-              display: 'block',
-            }}
-          />
-          <div style={{
-            position: 'absolute',
-            inset: 0,
-            background: 'linear-gradient(to bottom, rgba(15,23,42,0.45) 0%, rgba(15,23,42,0.3) 50%, rgba(15,23,42,0.95) 85%, rgba(15,23,42,1) 100%)',
-          }} />
+          <AnimatedBackground />
         </motion.div>
 
         {/* Hero Content */}
