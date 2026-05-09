@@ -3,7 +3,7 @@
 import Link from 'next/link';
 import { useWallet } from '@solana/wallet-adapter-react';
 import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
-import { motion, useScroll, useTransform, useMotionValue } from 'framer-motion';
+import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'framer-motion';
 import { useRef, useEffect, useState } from 'react';
 import { 
   Link as LinkIcon, 
@@ -91,64 +91,99 @@ function TiltCard({ children, style, className }: { children: React.ReactNode, s
   );
 }
 
-function AnimatedBackground() {
+function CatchyAnimatedBackground() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+  
+  const smoothX = useSpring(mouseX, { stiffness: 50, damping: 20 });
+  const smoothY = useSpring(mouseY, { stiffness: 50, damping: 20 });
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      const { innerWidth, innerHeight } = window;
+      const x = (e.clientX / innerWidth) * 2 - 1;
+      const y = (e.clientY / innerHeight) * 2 - 1;
+      mouseX.set(x);
+      mouseY.set(y);
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+    return () => window.removeEventListener("mousemove", handleMouseMove);
+  }, [mouseX, mouseY]);
+
+  // Generate 25 floating geometric shapes
+  const shapes = Array.from({ length: 25 }).map((_, i) => {
+    const isGold = i % 2 === 0;
+    const size = Math.random() * 80 + 20;
+    const initialX = Math.random() * 100;
+    const initialY = Math.random() * 100;
+    const depth = Math.random() * 4 + 1; // 1 to 5
+    
+    return { id: i, isGold, size, initialX, initialY, depth };
+  });
+
   return (
-    <div style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--bg-primary)' }}>
-      {/* Animated glowing orbs */}
-      <motion.div
-        animate={{
-          x: [0, 100, 0, -100, 0],
-          y: [0, 50, 100, 50, 0],
-          scale: [1, 1.2, 1, 0.8, 1],
-        }}
-        transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-        style={{
-          position: 'absolute',
-          top: '20%',
-          left: '30%',
-          width: '40vw',
-          height: '40vw',
-          background: 'var(--cta)',
-          borderRadius: '50%',
-          filter: 'blur(100px)',
-          opacity: 0.15,
-        }}
-      />
-      <motion.div
-        animate={{
-          x: [0, -100, 0, 100, 0],
-          y: [0, -50, -100, -50, 0],
-          scale: [1, 0.8, 1, 1.2, 1],
-        }}
-        transition={{ duration: 25, repeat: Infinity, ease: "linear" }}
-        style={{
-          position: 'absolute',
-          bottom: '10%',
-          right: '20%',
-          width: '35vw',
-          height: '35vw',
-          background: 'var(--accent)',
-          borderRadius: '50%',
-          filter: 'blur(100px)',
-          opacity: 0.15,
-        }}
-      />
-      
-      {/* Animated Grid overlay */}
+    <div ref={containerRef} style={{ position: 'absolute', inset: 0, overflow: 'hidden', background: 'var(--bg-primary)', perspective: 1200 }}>
+      {/* 3D Interactive Particle Network */}
+      <motion.div style={{ width: '100%', height: '100%', transformStyle: 'preserve-3d' }}>
+        {shapes.map(shape => {
+          const x = useTransform(smoothX, [-1, 1], [-80 * shape.depth, 80 * shape.depth]);
+          const y = useTransform(smoothY, [-1, 1], [-80 * shape.depth, 80 * shape.depth]);
+          const rotateX = useTransform(smoothY, [-1, 1], [35, -35]);
+          const rotateY = useTransform(smoothX, [-1, 1], [-35, 35]);
+
+          return (
+            <motion.div
+              key={shape.id}
+              style={{
+                position: 'absolute',
+                top: `${shape.initialY}%`,
+                left: `${shape.initialX}%`,
+                width: shape.size,
+                height: shape.size,
+                border: `2px solid ${shape.isGold ? 'var(--accent)' : 'var(--cta)'}`,
+                background: 'transparent',
+                borderRadius: shape.isGold ? '50%' : '15%',
+                opacity: 0.1 + (1 / shape.depth) * 0.4,
+                x,
+                y,
+                rotateX,
+                rotateY,
+                z: shape.depth * 80,
+                boxShadow: `0 0 20px ${shape.isGold ? 'var(--accent-glow)' : 'var(--cta-glow)'}, inset 0 0 15px ${shape.isGold ? 'var(--accent-glow)' : 'var(--cta-glow)'}`,
+                transformStyle: 'preserve-3d'
+              }}
+              animate={{
+                rotateZ: [0, 360],
+              }}
+              transition={{
+                duration: Math.random() * 20 + 15,
+                repeat: Infinity,
+                ease: "linear"
+              }}
+            />
+          )
+        })}
+      </motion.div>
+
+      {/* Grid overlay for depth anchoring */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px)',
-        backgroundSize: '40px 40px',
-        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
-        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 80%)',
+        backgroundImage: 'linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px)',
+        backgroundSize: '50px 50px',
+        maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%)',
+        WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,0) 90%)',
+        pointerEvents: 'none',
       }} />
 
-      {/* Dark fade at bottom to blend into content */}
+      {/* Fade at bottom to blend into content seamlessly */}
       <div style={{
         position: 'absolute',
         inset: 0,
-        background: 'linear-gradient(to bottom, transparent 0%, rgba(15,23,42,0.8) 50%, rgba(15,23,42,1) 100%)',
+        background: 'linear-gradient(to bottom, transparent 0%, rgba(15,23,42,0.8) 60%, rgba(15,23,42,1) 100%)',
+        pointerEvents: 'none'
       }} />
     </div>
   );
@@ -176,7 +211,7 @@ export default function Home() {
             y: heroBgY,
           }}
         >
-          <AnimatedBackground />
+          <CatchyAnimatedBackground />
         </motion.div>
 
         {/* Hero Content */}
