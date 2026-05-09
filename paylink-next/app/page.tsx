@@ -281,7 +281,7 @@ export default function Home() {
                 maxWidth: '480px',
                 marginBottom: '12px',
               }}>
-                Lock USDC on Solana. Share a link. Your recipient claims it with just a phone number.
+                Send digital dollars by link. Your recipient claims it with just a phone number — no app, no wallet, no signup.
               </motion.p>
               <motion.p variants={FADE_UP} style={{
                 fontSize: '1.25rem',
@@ -311,7 +311,7 @@ export default function Home() {
               {/* Trust bar */}
               <motion.div variants={FADE_UP} style={{ marginTop: '40px', display: 'flex', gap: '24px', flexWrap: 'wrap' }}>
                 {[
-                  { icon: <Lock size={13} />, text: 'Non-custodial' },
+                  { icon: <Lock size={13} />, text: 'Self-custody until claim' },
                   { icon: <Zap size={13} />, text: '400ms settlement' },
                   { icon: <Globe size={13} />, text: 'Works globally' },
                   { icon: <Smartphone size={13} />, text: 'No wallet needed' },
@@ -353,8 +353,8 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '32px' }}>
             {[
               { val: '< 400ms', label: 'Settlement Speed' },
-              { val: '$0.001',  label: 'Network Fee' },
-              { val: '100%',    label: 'Non-Custodial' },
+              { val: '$0.001',  label: 'On-Chain Fee' },
+              { val: 'Open',    label: 'Source Contract' },
               { val: '0',       label: 'Accounts Required' },
             ].map(s => (
               <motion.div key={s.label} variants={FADE_UP} className="text-center">
@@ -381,11 +381,30 @@ export default function Home() {
           variants={STAGGER}
           style={{ padding: '120px 0' }}
         >
-          <motion.div variants={FADE_UP} className="text-center" style={{ marginBottom: '72px' }}>
+          <motion.div variants={FADE_UP} className="text-center" style={{ marginBottom: '48px' }}>
             <div className="badge badge-gold" style={{ marginBottom: '20px', fontFamily: 'var(--font-heading)', fontSize: '0.65rem' }}>HOW IT WORKS</div>
             <h2 style={{ marginBottom: '16px' }}>Three steps. Millions of people.</h2>
             <p style={{ color: 'var(--text-secondary)', fontSize: '1.0625rem', maxWidth: '500px', margin: '0 auto' }}>
               Built for the person who doesn&apos;t know what a seed phrase is — and never should have to.
+            </p>
+          </motion.div>
+
+          {/* Aisha scenario */}
+          <motion.div variants={FADE_UP} style={{
+            maxWidth: '720px', margin: '0 auto 72px', textAlign: 'center',
+            padding: '24px 28px',
+            background: 'rgba(245,158,11,0.04)',
+            border: '1px solid rgba(245,158,11,0.18)',
+            borderRadius: '16px',
+          }}>
+            <p style={{
+              color: 'var(--text-secondary)', fontSize: '1.0625rem', lineHeight: 1.7,
+              fontStyle: 'italic',
+            }}>
+              <span style={{ color: 'var(--gold)', fontWeight: 700, fontStyle: 'normal' }}>Tunde, in Toronto,</span> sends $200.{' '}
+              <span style={{ color: 'var(--gold)', fontWeight: 700, fontStyle: 'normal' }}>Aisha, in Lagos,</span> gets ₦300,000 in her bank account in 90 seconds.
+              <br />
+              <span style={{ color: 'var(--text-muted)', fontSize: '0.9375rem' }}>No wallet. No app. Just a link.</span>
             </p>
           </motion.div>
 
@@ -394,15 +413,15 @@ export default function Home() {
               {
                 step: '01', label: 'LOCK',
                 icon: <LinkIcon size={26} style={{ color: 'var(--gold)' }} />,
-                title: 'Create a PayLink',
-                desc: 'Connect your wallet. Pick USDC or USDT. Set the amount and an expiry window. Funds lock in an audited Solana smart contract — not on our servers, never in our custody.',
+                title: 'You lock the funds',
+                desc: 'Connect your wallet. Pick USDC or USDT. Set the amount and an expiry window. Funds lock in an open-source Solana smart contract — not on our servers.',
                 color: 'var(--gold)',
                 glow: 'rgba(245,158,11,0.15)',
               },
               {
                 step: '02', label: 'SEND',
                 icon: <Send size={26} style={{ color: 'var(--purple-light)' }} />,
-                title: 'Share the link',
+                title: 'You share a link',
                 desc: 'A unique URL is generated instantly. Send it over WhatsApp, SMS, email, or a DM. No wallet address. No QR codes. No explaining what a blockchain is.',
                 color: 'var(--purple-light)',
                 glow: 'rgba(139,92,246,0.15)',
@@ -410,8 +429,8 @@ export default function Home() {
               {
                 step: '03', label: 'CLAIM',
                 icon: <Wallet size={26} style={{ color: '#10B981' }} />,
-                title: 'Tap. Money arrives.',
-                desc: 'They open the link in any browser. Verify with a phone OTP. Funds released instantly. No app. No account. No crypto knowledge.',
+                title: 'They tap. Money arrives.',
+                desc: 'They open the link. Type their phone number. Get a one-time code on WhatsApp. Funds release on-chain and route to their bank. No app. No wallet. No crypto knowledge.',
                 color: '#10B981',
                 glow: 'rgba(16,185,129,0.15)',
               },
@@ -478,15 +497,15 @@ export default function Home() {
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '20px' }}>
             {[
               {
-                title: 'Freelancers & Remote Workers',
-                desc: 'Invoice international clients without sharing a wallet address. Get paid in USDC. Convert to local currency on your terms. No wire fees.',
-                icon: <Briefcase size={22} />,
+                title: 'Families Sending Money Home',
+                desc: 'Remittances cost 6.2% globally on average. PayLink moves on-chain for under a cent — the only fee left is the off-ramp to your family\'s bank. They get a WhatsApp link. They claim it. Done.',
+                icon: <Users size={22} />,
                 color: 'var(--gold)',
               },
               {
-                title: 'Families Sending Money Home',
-                desc: 'Remittances cost 6.2% globally on average. PayLink costs less than a cent. Your family gets a WhatsApp link. They claim it. Done.',
-                icon: <Users size={22} />,
+                title: 'Freelancers & Remote Workers',
+                desc: 'Invoice international clients without sharing a wallet address. Get paid in stablecoins. Convert to local currency on your terms. No wire fees, no chargebacks.',
+                icon: <Briefcase size={22} />,
                 color: 'var(--purple-light)',
               },
               {
@@ -545,15 +564,15 @@ export default function Home() {
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '56px', alignItems: 'start', position: 'relative' }}>
               <div>
                 <div className="badge badge-gold" style={{ marginBottom: '20px', fontFamily: 'var(--font-heading)', fontSize: '0.65rem' }}>SECURITY</div>
-                <h2 style={{ marginBottom: '16px' }}>Your funds are safer here than in a bank.</h2>
+                <h2 style={{ marginBottom: '16px' }}>Your funds are protected by code, not promises.</h2>
                 <p style={{ color: 'var(--text-muted)', fontStyle: 'italic', marginBottom: '36px', fontSize: '0.9375rem' }}>
-                  Not because we say so. Because the code is public and the math doesn&apos;t lie.
+                  Open contract. Auditable rules. Your trust isn&apos;t in us — it&apos;s in math you can read.
                 </p>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '24px' }}>
                   {[
-                    { title: 'Non-custodial escrow', desc: 'Funds live in a Solana smart contract. PayLink cannot access, freeze, or move them. Only you and your recipient hold the keys.' },
+                    { title: 'Self-custody until claim', desc: 'Funds live in an on-chain Solana escrow. PayLink cannot access, freeze, or move them while they sit. Only the smart contract\'s rules can release them.' },
                     { title: 'Automatic reclamation', desc: 'You set the expiry window. If unclaimed, your funds return to you on-chain automatically — no support ticket required.' },
-                    { title: 'Phone-verified claiming', desc: 'Recipients verify with a one-time code. No wallet. No password. No account needed.' },
+                    { title: 'Phone-verified claiming', desc: 'Recipients verify with a one-time WhatsApp/SMS code. We\'re upgrading to passkeys + embedded wallets in v2 to remove this attack surface entirely.' },
                   ].map(item => (
                     <div key={item.title} style={{ display: 'flex', gap: '14px' }}>
                       <div style={{ width: '24px', height: '24px', borderRadius: '50%', background: 'rgba(16,185,129,0.15)', border: '1px solid rgba(16,185,129,0.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, marginTop: '2px' }}>
@@ -611,7 +630,7 @@ export default function Home() {
                 </div>
                 {/* Tech chips */}
                 <div style={{ display: 'flex', gap: '8px', marginTop: '20px', flexWrap: 'wrap' }}>
-                  {['Anchor 0.29', 'Rust', 'Solana Devnet', 'SPL Token'].map(t => (
+                  {['Anchor 0.32', 'Rust', 'Solana', 'SPL Token'].map(t => (
                     <span key={t} style={{ padding: '3px 10px', background: 'rgba(255,255,255,0.05)', border: '1px solid rgba(255,255,255,0.08)', borderRadius: '6px', fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>{t}</span>
                   ))}
                 </div>
@@ -638,7 +657,7 @@ export default function Home() {
               { icon: <Zap size={20} />, label: 'Anchor Escrow', detail: 'Multi-token (USDC + USDT). PDA-derived accounts. Strict ownership. Rent reclaimed on close.', color: 'var(--gold)' },
               { icon: <RefreshCcw size={20} />, label: 'Auto-Reclaim', detail: 'Set exact expiration. Funds return to sender on-chain automatically if unclaimed.', color: 'var(--purple-light)' },
               { icon: <Coins size={20} />, label: 'Multi-Token', detail: 'Native USDC and USDT on Solana. Devnet today, mainnet ready.', color: '#10B981' },
-              { icon: <ShieldCheck size={20} />, label: 'What we don\'t do', detail: '✕ Hold your funds\n✕ Collect KYC\n✕ Charge fees\n✕ Require a wallet', color: '#60A5FA' },
+              { icon: <ShieldCheck size={20} />, label: 'What we don\'t do', detail: '✕ Sit on your funds\n✕ Collect KYC from the sender\n✕ Hide our fees\n✕ Require the recipient to download anything', color: '#60A5FA' },
             ].map(f => (
               <motion.div key={f.label} variants={FADE_UP}>
                 <TiltCard>
@@ -658,6 +677,143 @@ export default function Home() {
                   </div>
                 </TiltCard>
               </motion.div>
+            ))}
+          </div>
+        </motion.section>
+
+        {/* ── COST COMPARISON ─────────────────────────────────── */}
+        <motion.section
+          className="container"
+          initial="hidden" whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={STAGGER}
+          style={{ paddingBottom: '120px' }}
+        >
+          <motion.div variants={FADE_UP} className="text-center" style={{ marginBottom: '48px' }}>
+            <div className="badge badge-gold" style={{ marginBottom: '20px', fontFamily: 'var(--font-heading)', fontSize: '0.65rem' }}>WHAT IT COSTS</div>
+            <h2 style={{ marginBottom: '16px' }}>The honest math on $200.</h2>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '1.0625rem', maxWidth: '560px', margin: '0 auto' }}>
+              We&apos;re not free — but we&apos;re honest about every cent. The on-chain leg is sub-cent. The fiat off-ramp adds the rest.
+            </p>
+          </motion.div>
+
+          <motion.div variants={FADE_UP} style={{
+            maxWidth: '880px', margin: '0 auto',
+            background: 'var(--bg-card)',
+            border: '1px solid var(--border)',
+            borderRadius: '20px',
+            overflow: 'hidden',
+          }}>
+            {/* Header row */}
+            <div style={{
+              display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr',
+              padding: '18px 24px',
+              background: 'rgba(245,158,11,0.05)',
+              borderBottom: '1px solid rgba(245,158,11,0.15)',
+              fontFamily: 'var(--font-heading)', fontSize: '0.7rem',
+              letterSpacing: '0.1em', textTransform: 'uppercase',
+              color: 'var(--text-muted)', fontWeight: 700,
+            }}>
+              <div>Sending $200 to Lagos</div>
+              <div style={{ textAlign: 'center' }}>Western Union</div>
+              <div style={{ textAlign: 'center' }}>Wise</div>
+              <div style={{ textAlign: 'center', color: 'var(--gold)' }}>PayLink</div>
+            </div>
+            {[
+              { row: 'Sender fee', wu: '$9.50', wise: '$4.20', pl: '< $0.01' },
+              { row: 'Off-ramp / FX', wu: 'Hidden in rate', wise: '~0.5%', pl: '~3% (MoonPay)' },
+              { row: 'Time to arrive', wu: '6 days', wise: '1–3 days', pl: '~90 seconds' },
+              { row: 'Recipient setup', wu: 'Branch visit', wise: 'Bank account', pl: 'Just a phone' },
+            ].map((r, i, arr) => (
+              <div key={r.row} style={{
+                display: 'grid', gridTemplateColumns: '1.5fr 1fr 1fr 1fr',
+                padding: '18px 24px',
+                borderBottom: i < arr.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+                fontSize: '0.9375rem',
+                alignItems: 'center',
+              }}>
+                <div style={{ color: 'var(--text-secondary)', fontWeight: 600 }}>{r.row}</div>
+                <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>{r.wu}</div>
+                <div style={{ textAlign: 'center', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>{r.wise}</div>
+                <div style={{ textAlign: 'center', color: 'var(--gold)', fontFamily: 'var(--font-mono)', fontWeight: 700 }}>{r.pl}</div>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.p variants={FADE_UP} style={{
+            textAlign: 'center', color: 'var(--text-dim)', fontSize: '0.8125rem',
+            marginTop: '20px', fontStyle: 'italic',
+          }}>
+            Off-ramp fee shown is MoonPay&apos;s standard. We don&apos;t take a cut today — and when we do, you&apos;ll see it on this table.
+          </motion.p>
+        </motion.section>
+
+        {/* ── FAQ ─────────────────────────────────────────────── */}
+        <motion.section
+          className="container container-sm"
+          initial="hidden" whileInView="visible"
+          viewport={{ once: true, margin: '-80px' }}
+          variants={STAGGER}
+          style={{ paddingBottom: '120px' }}
+        >
+          <motion.div variants={FADE_UP} className="text-center" style={{ marginBottom: '56px' }}>
+            <div className="badge badge-gold" style={{ marginBottom: '20px', fontFamily: 'var(--font-heading)', fontSize: '0.65rem' }}>QUESTIONS</div>
+            <h2 style={{ marginBottom: '16px' }}>Things you&apos;re probably wondering.</h2>
+          </motion.div>
+
+          <div style={{ display: 'flex', flexDirection: 'column', gap: '16px' }}>
+            {[
+              {
+                q: 'Is PayLink custodial?',
+                a: 'No, with one honest caveat. While funds sit in escrow, they\'re in an on-chain smart contract — we cannot touch them. During the few seconds between the recipient\'s OTP verification and the on-chain claim, our relayer signs the claim transaction on their behalf so they don\'t need SOL for gas. We\'re removing that window in v2 with embedded wallets.',
+              },
+              {
+                q: 'How is this different from Solana Pay?',
+                a: 'Solana Pay assumes both sender and recipient have wallets. PayLink is the first to make "no wallet, just a phone number" the default for the recipient. The sender side still uses any Solana wallet you like — Phantom, Backpack, Solflare.',
+              },
+              {
+                q: 'What if the recipient never claims it?',
+                a: 'You set an expiry window when you create the link (1 hour to 30 days). After expiry, the funds return to your wallet on-chain — no support ticket, no waiting period. The contract enforces this; we have no power to override it.',
+              },
+              {
+                q: 'What countries does this work in?',
+                a: 'The on-chain leg works anywhere Solana works — i.e., everywhere. The fiat off-ramp depends on MoonPay\'s coverage (currently 160+ countries including Nigeria, Kenya, India, Mexico, Philippines). If MoonPay doesn\'t serve your recipient\'s country, they can still hold the USDC and off-ramp through any exchange they prefer.',
+              },
+              {
+                q: 'Has the smart contract been audited?',
+                a: 'Not yet by an external firm. The contract is open-source, written in Anchor, and follows standard Solana escrow patterns (PDA-derived accounts, strict ownership, rent reclamation on close). Mainnet launch is gated on a third-party audit, which we\'ve budgeted for.',
+              },
+              {
+                q: 'How do you make money?',
+                a: 'Today: zero protocol fees. The plan is a 0.5% fee on the on-chain leg once we have meaningful volume — well below traditional remittance margins, and visible on the cost table above. Free for senders under $50 to drive consumer adoption.',
+              },
+            ].map((item) => (
+              <motion.details
+                key={item.q}
+                variants={FADE_UP}
+                style={{
+                  background: 'var(--bg-card)',
+                  border: '1px solid var(--border)',
+                  borderRadius: '14px',
+                  padding: '20px 24px',
+                  cursor: 'pointer',
+                }}
+              >
+                <summary style={{
+                  fontWeight: 700, color: 'var(--text-primary)',
+                  fontSize: '1rem', listStyle: 'none',
+                  display: 'flex', justifyContent: 'space-between', alignItems: 'center', gap: '16px',
+                }}>
+                  <span>{item.q}</span>
+                  <span style={{ color: 'var(--gold)', fontFamily: 'var(--font-heading)', fontSize: '1.25rem', fontWeight: 900 }}>+</span>
+                </summary>
+                <p style={{
+                  marginTop: '14px', color: 'var(--text-secondary)',
+                  fontSize: '0.9375rem', lineHeight: 1.7,
+                }}>
+                  {item.a}
+                </p>
+              </motion.details>
             ))}
           </div>
         </motion.section>
