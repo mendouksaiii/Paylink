@@ -86,6 +86,7 @@ export const IDL = {
     { code: 6006, name: 'InvalidTokenAccountOwner', msg: 'Token account owner does not match expected wallet.' },
     { code: 6007, name: 'MintMismatch', msg: 'Token mint does not match the escrow mint.' },
   ],
+  types: [],
 };
 
 const programId = new PublicKey(PROGRAM_ID);
