@@ -56,8 +56,8 @@ export function usePaylink() {
         escrowTokenAccount: escrowTokenPDA,
         senderTokenAccount: senderATA,
         tokenMint: mint,
-        tokenProgram: TOKEN_PROGRAM_ID,
-        systemProgram: SystemProgram.programId,
+        tokenProgram: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'), // Hardcoded to avoid undefined export issues
+        systemProgram: new PublicKey('11111111111111111111111111111111'), // Hardcoded to avoid undefined export issues
       })
       .rpc({ commitment: 'confirmed' });
 
@@ -110,7 +110,7 @@ export function usePaylink() {
         escrowAccount: escrowPDA,
         escrowTokenAccount: escrowTokenPDA,
         recipientTokenAccount: recipientATA,
-        tokenProgram: TOKEN_PROGRAM_ID,
+        tokenProgram: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
       })
       .preInstructions(preInstructions)
       .rpc({ commitment: 'confirmed' });
@@ -151,7 +151,7 @@ export function usePaylink() {
         escrowAccount: escrowPDA,
         escrowTokenAccount: escrowTokenPDA,
         senderTokenAccount: senderATA,
-        tokenProgram: TOKEN_PROGRAM_ID,
+        tokenProgram: new PublicKey('TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA'),
       })
       .rpc({ commitment: 'confirmed' });
 
