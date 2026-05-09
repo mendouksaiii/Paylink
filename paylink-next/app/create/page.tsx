@@ -8,6 +8,7 @@ import { TOKENS, getTokenMint, parseTokenAmount } from '@/lib/tokens';
 import { EXPIRY_PRESETS, DEFAULT_EXPIRY_SECONDS } from '@/lib/constants';
 import { generateClaimSeed, generateClaimUrl, seedToHex, storeCreatedLink } from '@/lib/crypto';
 import { usePaylink } from '@/hooks/usePaylink';
+import { useBalances } from '@/hooks/useBalances';
 import confetti from 'canvas-confetti';
 import { toast } from 'sonner';
 import {
@@ -23,6 +24,7 @@ const FADE_UP = {
 export default function Create() {
   const { connected, publicKey } = useWallet();
   const { createLink, getErrorMessage }   = usePaylink();
+  const { sol, usdc, usdt, loading: balancesLoading } = useBalances();
 
   const [token,        setToken]        = useState('USDC');
   const [amount,       setAmount]       = useState('');
@@ -238,7 +240,27 @@ export default function Create() {
 
                 {/* Amount */}
                 <motion.div custom={1} variants={FADE_UP} initial="hidden" animate="visible" style={{ marginBottom:'28px' }}>
-                  <label style={{ fontSize:'0.7rem', color:'var(--text-muted)', display:'block', marginBottom:'10px', textTransform:'uppercase', letterSpacing:'0.1em', fontWeight:700 }}>Amount</label>
+                  <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline', marginBottom:'10px' }}>
+                    <label style={{ fontSize:'0.7rem', color:'var(--text-muted)', textTransform:'uppercase', letterSpacing:'0.1em', fontWeight:700 }}>Amount</label>
+                    {connected && (
+                      <button
+                        type="button"
+                        onClick={() => {
+                          const bal = token === 'USDC' ? usdc : usdt;
+                          if (bal > 0) setAmount(bal.toString());
+                        }}
+                        style={{
+                          fontSize:'0.7rem', color: 'var(--text-muted)', background:'none', border:'none',
+                          cursor: 'pointer', padding: 0, fontFamily: 'var(--font-mono)',
+                        }}
+                      >
+                        Available: <span style={{ color: 'var(--gold)', fontWeight: 700 }}>
+                          {balancesLoading ? '...' : (token === 'USDC' ? usdc : usdt).toFixed(2)}
+                        </span> {token}
+                        <span style={{ marginLeft: '6px', color: 'var(--gold)', fontSize: '0.65rem', textTransform:'uppercase', letterSpacing:'0.1em' }}>MAX</span>
+                      </button>
+                    )}
+                  </div>
                   <div style={{ position:'relative' }}>
                     <input
                       type="number"
@@ -253,6 +275,18 @@ export default function Create() {
                       {token}
                     </div>
                   </div>
+                  {connected && (
+                    <div style={{ marginTop: '10px', fontSize: '0.7rem', color: 'var(--text-muted)', fontFamily: 'var(--font-mono)' }}>
+                      SOL balance (gas): <span style={{ color: sol > 0.01 ? 'var(--gold)' : '#EF4444', fontWeight: 700 }}>
+                        {balancesLoading ? '...' : sol.toFixed(4)}
+                      </span> SOL
+                      {sol < 0.01 && !balancesLoading && (
+                        <a href="https://faucet.solana.com/" target="_blank" rel="noopener noreferrer" style={{ marginLeft: '8px', color: 'var(--gold)', textDecoration: 'underline' }}>
+                          Get devnet SOL ↗
+                        </a>
+                      )}
+                    </div>
+                  )}
                 </motion.div>
 
                 {/* Expiry */}
